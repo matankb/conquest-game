@@ -3,12 +3,13 @@ const bcrypt = require('bcryptjs');
 
 const playerSchema = new mongoose.Schema({
   email: String,
+  username: String,
   name: String,
   password: String,
 });
 
 playerSchema.methods.generateHash = function(password) {
-  return bcrypt.hash(password, 8);  // returns promise
+  return bcrypt.hash(password, 8); // returns promise
 };
 
 playerSchema.methods.validPassword = function(password) {
