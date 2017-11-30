@@ -17,5 +17,10 @@
   },
   "homepage": "https://github.com/matankb/conquest-game#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.5",
+    "socket.io": "^2.0.4"
   }
 }
