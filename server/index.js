@@ -2,7 +2,7 @@ const http = require('http');
 
 const express = require('express');
 const mongoose = require('mongoose');
-const socketio = require('socketio');
+const socketio = require('socket.io');
 
 const config = require('./config');
 // connect to mongodb
