@@ -19,13 +19,7 @@ public class GameManager {
     static String sessionToken;
 
     public static void main(String[] args) {
-        frame = new JFrame("Conquest GameManager");
-
-        frame.setSize(1920, 1080);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        initFrame();
 
         errorMessage = new JLabel();
         errorMessage.setBounds(400, 10, 30, 150);
@@ -36,19 +30,7 @@ public class GameManager {
                 public void call(Object... objects) {
                     //when connected runs this
                     account = new Account();
-                    frame.add(account.panel);
-                    frame.add(errorMessage);
-                    account.login.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            account.sendLogin();
-                        }
-                    });
-                    account.register.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            account.register();
-                        }
-                    });
-                    //These should really be in the account class, but until it works with UI I won't bother.
+                    replaceContentPane(account.getPanel());
                 }
             });
             socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
@@ -59,11 +41,12 @@ public class GameManager {
             socket.on("loginSuccess", new Emitter.Listener() {
                 public void call(Object... objects) {
                     errorMessage.setText("Login successful.");
+                    //unnecessary later on, because it should be removed afterwards for when the games list loads.
                     frame.remove(account.login);
                     frame.remove(account.accountField);
                     frame.remove(account.passwordField);
-                    JSONObject data = (JSONObject) objects[0];
 
+                    JSONObject data = (JSONObject) objects[0];
                     sessionToken = (String) data.get("token");
 
                     ArrayList<GameOption> gamesList = Helper.makeArray((JSONArray) data.get("games"));
@@ -76,9 +59,36 @@ public class GameManager {
                     errorMessage.setText("Login unsuccessful. Please check that you entered the correct username and/or password.");
                 }
             });
+            socket.on("initialGameState", new Emitter.Listener() {
+                public void call(Object... objects) {
+                    //set up the beginning game state
+                }
+            });
+            socket.on("newGameState", new Emitter.Listener() {
+                public void call(Object... objects) {
+                    //something that updates the game map/state/whatever
+                }
+            });
             socket.connect();
         } catch (URISyntaxException e) {
             //swallow
         }
+    }
+    public static void replaceContentPane(JPanel panel) {
+        frame.setContentPane(panel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.validate();
+        frame.repaint();
+    }
+    public static void initFrame() {
+        frame = new JFrame("Conquest GameManager");
+
+        frame.setSize(1920, 1080);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
