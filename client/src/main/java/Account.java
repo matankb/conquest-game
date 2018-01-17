@@ -1,37 +1,48 @@
-import io.socket.emitter.Emitter;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URISyntaxException;
+import java.awt.*;
 
 public class Account {
 
     public JTextField accountField;
     public JPasswordField passwordField;
     public JButton login;
+    public JLabel title;
+    public JButton register;
+    public JButton sendRegister;
+    private JPanel panel;
+    private JTabbedPane tabbedPane;
+    private JPanel Login;
+    private JPanel Register;
 
     public Account() {
 
-        login = new JButton("login");
-        accountField = new JTextField();
-        passwordField = new JPasswordField();
-
-        login.setBounds(20, 10, 60, 30);
-        accountField.setBounds(290, 465, 150, 30);
-        passwordField.setBounds(290, 435, 150, 30);
-
-        Game.frame.add(login);
-        Game.frame.add(accountField);
-        Game.frame.add(passwordField);
+        panel.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 
     }
     public void sendLogin() {
-        JSONObject json = new JSONObject();
-        json.put("username", accountField.getText());
-        json.put("password", passwordField.getPassword());
-        Game.socket.emit("accountInfo", json);
+        if (accountField.getText().equals("") || passwordField.getPassword().equals("")) {
+            GameManager.errorMessage.setText("Password or Email left blank.");
+        } else if (accountField.getText().contains("@")){
+            JSONObject json = new JSONObject();
+            json.put("email", accountField.getText());
+            json.put("password", passwordField.getPassword());
+            GameManager.socket.emit("accountInfo", json);
+            accountField.setText("");
+            passwordField.setText("");
+            GameManager.errorMessage.setText("Sending Login...");
+        } else {
+            GameManager.errorMessage.setText("Account invalid. Please check you put in a valid email address.");
+        }
+    }
+    public void register() {
+        panel.removeAll();
+        sendRegister = new JButton("Register");
+    }
+
+    public JPanel getPanel() {
+        return panel;
     }
 }
 
