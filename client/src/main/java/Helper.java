@@ -1,6 +1,7 @@
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Helper {
@@ -17,5 +18,8 @@ public class Helper {
             }
         }
         return arrayList;
+    }
+    public static Font getThemeFont(int size) {
+        return new Font(ThemeConstants.fontTheme, Font.PLAIN, size);
     }
 }

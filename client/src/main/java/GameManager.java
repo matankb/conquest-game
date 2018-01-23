@@ -20,10 +20,6 @@ public class GameManager {
 
     public static void main(String[] args) {
         initFrame();
-
-        errorMessage = new JLabel();
-        errorMessage.setBounds(400, 10, 30, 150);
-
         try {
             socket = IO.socket("http://localhost:5000");
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
@@ -41,10 +37,6 @@ public class GameManager {
             socket.on("loginSuccess", new Emitter.Listener() {
                 public void call(Object... objects) {
                     errorMessage.setText("Login successful.");
-                    //unnecessary later on, because it should be removed afterwards for when the games list loads.
-                    frame.remove(account.login);
-                    frame.remove(account.accountField);
-                    frame.remove(account.passwordField);
 
                     JSONObject data = (JSONObject) objects[0];
                     sessionToken = (String) data.get("token");
@@ -56,7 +48,8 @@ public class GameManager {
             });
             socket.on("loginFailure", new Emitter.Listener() {
                 public void call(Object... objects) {
-                    errorMessage.setText("Login unsuccessful. Please check that you entered the correct username and/or password.");
+                    account.errorMessage.setText("Login unsuccessful. Please check that you entered the correct username and/or password.");
+                    account.throwError();
                 }
             });
             socket.on("initialGameState", new Emitter.Listener() {
