@@ -13,7 +13,7 @@ playerSchema.methods.generateHash = function(password) {
 };
 
 playerSchema.methods.validPassword = function(password) {
-  return bcrypt.compare(password, this.localAuth.password); // returns promise
+  return bcrypt.compare(password, this.password); // returns promise
 };
 
 
