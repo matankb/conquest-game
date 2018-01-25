@@ -11,9 +11,11 @@ module.exports = function (app, io) {
       const player = await Player.findOne({ email: authData.email });
 
       if (!player) {
-        socket.emit(socketMessages.PLAYER_LOGIN_FAILURE, { message: "You're not signed up!" });
+        return socket.emit(socketMessages.PLAYER_LOGIN_FAILURE, {
+          message: "You're not signed up!",
+        });
       } else if (!(await player.validPassword(authData.password))) {
-        socket.emit(socketMessages.PLAYER_LOGIN_FAILURE, {
+        return socket.emit(socketMessages.PLAYER_LOGIN_FAILURE, {
           message: 'Wrong Password. Please try again',
         });
       }
@@ -21,6 +23,7 @@ module.exports = function (app, io) {
       const currentGameToken = mongoose.Types.ObjectId();
       player.currentGameToken = currentGameToken;
       await player.save();
+
       socket.emit(socketMessages.PLAYER_LOGIN_SUCCESS, { token: currentGameToken });
     });
 
