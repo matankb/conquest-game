@@ -3,10 +3,8 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.json.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
@@ -31,24 +29,33 @@ public class GameManager {
             });
             socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
                 public void call(Object... objects) {
+                    frame.add(errorMessage);
                     errorMessage.setText("Failed to connect to the server.");
                 }
             });
             socket.on("loginSuccess", new Emitter.Listener() {
                 public void call(Object... objects) {
-                    errorMessage.setText("Login successful.");
-
                     JSONObject data = (JSONObject) objects[0];
-                    sessionToken = (String) data.get("token");
-
-                    ArrayList<GameOption> gamesList = Helper.makeArray((JSONArray) data.get("games"));
-                    EnterGame enterGame = new EnterGame(gamesList);
-                    //This is creating the option after logging in to create a game or join a game.
+                    System.out.println("yeet");
+                    try {
+                        sessionToken = (String) data.get("token");
+                        System.out.println(sessionToken);
+                        ArrayList<GameOption> gamesList = Helper.makeArray((JSONArray) data.get("games"));
+                        EnterGame enterGame = new EnterGame(gamesList);
+                        //Creates list of games to select from
+                    } catch (org.json.JSONException e) {
+                        System.out.println(e.toString());
+                    }
                 }
             });
             socket.on("loginFailure", new Emitter.Listener() {
                 public void call(Object... objects) {
-                    account.errorMessage.setText("Login unsuccessful. Please check that you entered the correct username and/or password.");
+                    JSONObject data = (JSONObject) objects[0];
+                    try {
+                        account.errorMessage.setText((String) data.get("message"));
+                    } catch (org.json.JSONException e) {
+                        System.out.println(e.toString());
+                    }
                     account.throwError();
                 }
             });
@@ -76,7 +83,7 @@ public class GameManager {
         frame.repaint();
     }
     public static void initFrame() {
-        frame = new JFrame("Conquest GameManager");
+        frame = new JFrame("Provincial Takeover");
 
         frame.setSize(1920, 1080);
         frame.setVisible(true);

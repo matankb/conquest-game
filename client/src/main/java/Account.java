@@ -38,11 +38,9 @@ public class Account {
             GameManager.socket.emit("accountInfo", json);
             accountField.setText("");
             passwordField.setText("");
-            throwError();
-            errorMessage.setText("Account is not correct");
         } else {
             throwError();
-            errorMessage.setText("An error occurred");
+            errorMessage.setText("Incorrect password/username");
         }
     }
     public void register() {
@@ -54,7 +52,7 @@ public class Account {
         accountLabel.setFont(Helper.getThemeFont(20));
         passwordLabel.setFont(Helper.getThemeFont(20));
         login.setFont(Helper.getThemeFont(20));
-        errorMessage.setFont(Helper.getThemeFont(10));
+        errorMessage.setFont(Helper.getThemeFont(14));
         loginHeader.setFont(Helper.getThemeFont(30));
 
         errorMessage.setVisible(false);
@@ -92,7 +90,7 @@ public class Account {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         //NOT IN USE
-        //panel = new ImagePanel("../src/images/background_image_login.jpg");
+        //panel = new VideoPanel("../src/images/background_image_login.jpg");
         panel.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         panel.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         panel.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());

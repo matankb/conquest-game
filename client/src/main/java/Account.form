@@ -107,7 +107,7 @@
                   <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="      username"/>
+                  <text value="      email"/>
                 </properties>
               </component>
               <component id="effcf" class="javax.swing.JLabel" binding="passwordLabel">
@@ -134,9 +134,9 @@
               <tabbedpane title="Register"/>
             </constraints>
             <properties>
-              <background color="-14699218"/>
+              <background color="-3190016"/>
               <focusable value="true"/>
-              <foreground color="-14699218"/>
+              <foreground color="-3190016"/>
               <name value="Register"/>
               <opaque value="false"/>
             </properties>
