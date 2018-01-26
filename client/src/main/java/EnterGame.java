@@ -1,8 +1,67 @@
-import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EnterGame {
-    //this class is for when the player decides to either create a new game or join an old one.
-    public EnterGame(ArrayList<GameOption> gamesList) {
 
+    private JPanel panel;
+    private JLabel title;
+    private JLabel paddingLabel;
+    private JButton joinPrivateGame;
+    private JButton joinPublicGame;
+    private JTextField privatGameIDField;
+    private JButton joinGameButton;
+    private JLabel errorMessage;
+
+    public EnterGame() {
+        GameManager.replaceContentPane(panel);
+        setDefaults();
+        addActionListeners();
+    }
+    public void setDefaults() {
+        title.setFont(Helper.getThemeFont(60));
+        paddingLabel.setFont(Helper.getThemeFont(60));
+        joinPrivateGame.setFont(Helper.getThemeFont(20));
+        joinPublicGame.setFont(Helper.getThemeFont(20));
+        joinGameButton.setFont(Helper.getThemeFont(15));
+        errorMessage.setFont(Helper.getThemeFont(10));
+    }
+    public void addActionListeners() {
+        joinPrivateGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                joinGameButton.setVisible(true);
+                privatGameIDField.setVisible(true);
+                errorMessage.setVisible(false);
+            }
+        });
+        joinPublicGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                joinGameButton.setVisible(false);
+                privatGameIDField.setVisible(false);
+                errorMessage.setVisible(false);
+            }
+        });
+        joinGameButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!privatGameIDField.getText().equals("")) {
+                    GameManager.socket.emit("joinPrivateGame", privatGameIDField.getText());
+                    privatGameIDField.setText("");
+                    privatGameIDField.setVisible(false);
+                    joinGameButton.setVisible(false);
+                    errorMessage.setVisible(false);
+                } else {
+                    errorMessage.setText("Not a valid game ID");
+                    errorMessage.setVisible(true);
+                }
+            }
+        });
+    }
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        panel = new JPanel();
+        panel.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+        panel.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        panel.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
 }

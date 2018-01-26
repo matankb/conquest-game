@@ -1,3 +1,4 @@
+import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
@@ -20,6 +21,16 @@ public class Account {
     private JLabel passwordLabel;
     public JLabel errorMessage;
     private JLabel loginHeader;
+    private JLabel registerHeader;
+    private JTextField enterUsernameField;
+    private JTextField enterEmailField;
+    private JPasswordField enterPasswordField;
+    private JLabel enterUsername;
+    private JLabel enterEmail;
+    private JLabel enterPassword;
+    private JPasswordField confirmPasswordField;
+    private JLabel confirmPassword;
+    private JLabel registerErrorMessage;
 
     public Account() {
 
@@ -32,20 +43,30 @@ public class Account {
             throwError();
             errorMessage.setText("Password or Email left blank.");
         } else if (accountField.getText().contains("@")){
-            JSONObject json = new JSONObject();
-            json.put("email", accountField.getText());
-            json.put("password", passwordField.getPassword());
-            GameManager.socket.emit("accountInfo", json);
+            JSONObject data = new JSONObject();
+            data.put("email", accountField.getText());
+            data.put("password", passwordField.getPassword());
+
+            GameManager.socket.emit("accountInfo", data);
+
             accountField.setText("");
             passwordField.setText("");
         } else {
             throwError();
-            errorMessage.setText("Incorrect password/username");
+            errorMessage.setText("Invalid username/password");
         }
     }
-    public void register() {
-        panel.removeAll();
-        register = new JButton("Register");
+    public void sendRegister() {
+        if (enterUsernameField.getText().equals("") || enterEmailField.getText().equals("") || enterPasswordField.getPassword().equals("")) {
+            if (enterPasswordField.getPassword() == confirmPasswordField.getPassword()) {
+                JSONObject data = new JSONObject();
+                data.put("username", enterUsernameField.getText());
+                data.put("email", enterEmailField.getText());
+                data.put("password", enterPasswordField.getPassword());
+
+                GameManager.socket.emit("registerInfo", data);
+            }
+        }
     }
     public void setDefaults() {
         title.setFont(Helper.getThemeFont(24));
@@ -55,6 +76,12 @@ public class Account {
         errorMessage.setFont(Helper.getThemeFont(14));
         loginHeader.setFont(Helper.getThemeFont(30));
 
+        registerHeader.setFont(Helper.getThemeFont(30));
+        enterEmail.setFont(Helper.getThemeFont(20));
+        enterPassword.setFont(Helper.getThemeFont(20));
+        enterUsername.setFont(Helper.getThemeFont(20));
+        confirmPassword.setFont(Helper.getThemeFont(15));
+
         errorMessage.setVisible(false);
         addActionListeners();
     }
@@ -62,6 +89,11 @@ public class Account {
         login.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 sendLogin();
+            }
+        });
+        register.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sendRegister();
             }
         });
     }
@@ -75,7 +107,9 @@ public class Account {
                 loginPanel.revalidate();
                 loginPanel.repaint();
                 try {
-                    wait(4000);
+                    synchronized (this) {
+                        wait(4000);
+                    }
                 } catch (InterruptedException e) {
                     //swallow exception
                 }

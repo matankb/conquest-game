@@ -2,11 +2,10 @@ import javax.swing.*;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 public class GameManager {
 
@@ -36,14 +35,11 @@ public class GameManager {
             socket.on("loginSuccess", new Emitter.Listener() {
                 public void call(Object... objects) {
                     JSONObject data = (JSONObject) objects[0];
-                    System.out.println("yeet");
                     try {
                         sessionToken = (String) data.get("token");
-                        System.out.println(sessionToken);
-                        ArrayList<GameOption> gamesList = Helper.makeArray((JSONArray) data.get("games"));
-                        EnterGame enterGame = new EnterGame(gamesList);
-                        //Creates list of games to select from
-                    } catch (org.json.JSONException e) {
+                        EnterGame enterGame = new EnterGame();
+                        //creates page to enter a game from (i.e., private game or random public game
+                    } catch (JSONException e) {
                         System.out.println(e.toString());
                     }
                 }
@@ -53,7 +49,7 @@ public class GameManager {
                     JSONObject data = (JSONObject) objects[0];
                     try {
                         account.errorMessage.setText((String) data.get("message"));
-                    } catch (org.json.JSONException e) {
+                    } catch (JSONException e) {
                         System.out.println(e.toString());
                     }
                     account.throwError();
