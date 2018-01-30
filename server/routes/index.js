@@ -1,40 +1,26 @@
-const mongoose = require('mongoose');
-
-const Player = require('../models/Player');
 const { socketMessages } = require('../config');
+
+const auth = require('./auth');
+const pregame = require('./pregame');
+const game = require('./game');
 
 module.exports = function (app, io) {
 
   io.on('connection', socket => {
 
-    socket.on(socketMessages.PLAYER_LOGIN, async authData => {
-      const player = await Player.findOne({ email: authData.email });
+    const authRoutes = auth(socket, io);
+    const pregameRoutes = pregame(socket, io);
+    const gameRoutes = game(socket, io);
 
-      if (!player) {
-        return socket.emit(socketMessages.PLAYER_LOGIN_FAILURE, {
-          message: "You're not signed up!",
-        });
-      } else if (!(await player.validPassword(authData.password))) {
-        return socket.emit(socketMessages.PLAYER_LOGIN_FAILURE, {
-          message: 'Wrong Password. Please try again',
-        });
-      }
+    // auth
+    socket.on(socketMessages.PLAYER_LOGIN, authRoutes.playerLogin);
+    socket.on(socketMessages.PLAYER_REGISTER, authRoutes.playerRegister);
 
-      const currentGameToken = mongoose.Types.ObjectId();
-      player.currentGameToken = currentGameToken;
-      await player.save();
+    // pregame
+    socket.on(socketMessages.JOIN_PRIVATE_GAME, pregameRoutes.joinPrivateGame);
 
-      socket.emit(socketMessages.PLAYER_LOGIN_SUCCESS, { token: currentGameToken });
-    });
-
-    socket.on(socketMessages.PLAYER_REGISTER, async playerData => {
-      const player = new Player();
-      player.username = playerData.username;
-      player.email = playerData.email;
-      player.password = player.generateHash(playerData.password);
-      await player.save();
-      socket.emit(socketMessages.PLAYER_REGISTER_SUCCESS);
-    });
+    // game
+    socket.on(socketMessages.SUBMIT_ORDER_FORM, gameRoutes.submitOrderForm);
 
   });
 

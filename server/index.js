@@ -21,5 +21,6 @@ const io = socketio(server);
 routes(app, io);
 
 server.listen(config.server.PORT, config.server.IP, () => {
-    console.log('Server Started!');
-})
+  console.log('Server Started!'); // eslint-disable-line no-console
+});
+

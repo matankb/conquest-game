@@ -6,6 +6,7 @@ const playerSchema = new mongoose.Schema({
   username: String,
   name: String,
   password: String,
+  currentGameToken: String,
 });
 
 playerSchema.methods.generateHash = function(password) {
