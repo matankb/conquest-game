@@ -11,7 +11,8 @@ const config = {
   socketMessages: {
     // auth
     PLAYER_REGISTER: 'accountRegister',
-    PLAYER_REGISTER_SUCCESS: 'accountRegister',
+    PLAYER_REGISTER_SUCCESS: 'accountRegisterSuccess',
+    PLAYER_REGISTER_FAILURE: 'accountRegisterFailure',
     PLAYER_LOGIN: 'accountInfo',
     PLAYER_LOGIN_SUCCESS: 'loginSuccess',
     PLAYER_LOGIN_FAILURE: 'loginFailure',

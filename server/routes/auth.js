@@ -29,6 +29,13 @@ module.exports = function(socket) {
 
   async function playerRegister(playerData) {
 
+    // check to see if email/username already exists
+    const playerEmailCheck = Player.findOne({ email: playerData.email });
+    const playerUsernameCheck = Player.findOne({ username: playerData.username });
+    if (playerEmailCheck || playerUsernameCheck) {
+      return socket.emit(socketMessages.PLAYER_REGISTER_FAILURe);
+    }
+
     const player = new Player();
 
     player.username = playerData.username;
