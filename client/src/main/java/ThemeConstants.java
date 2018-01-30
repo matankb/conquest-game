@@ -11,6 +11,6 @@ public class ThemeConstants {
 
     static Color normalButtonColor = new Color(31,181,46);
     static Color selectedButtonColor = new Color(28, 133, 36);
-    static Color backgroundThemeColor = new Color(23, 1, 183);
+    static Color backgroundThemeColor = new Color(207, 83, 0);
 
 }
