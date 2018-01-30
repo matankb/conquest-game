@@ -31,7 +31,7 @@ public class Account {
     private JLabel enterPassword;
     private JPasswordField confirmPasswordField;
     private JLabel confirmPassword;
-    private JLabel registerErrorMessage;
+    public JLabel registerErrorMessage;
 
     public Account() {
 
@@ -46,11 +46,10 @@ public class Account {
         } else if (accountField.getText().contains("@")){
             JSONObject data = new JSONObject();
             data.put("email", accountField.getText());
-            data.put("password", passwordField.getPassword());
+            data.put("password", Helper.charToString(passwordField.getPassword()));
 
             GameManager.socket.emit("accountInfo", data);
 
-            accountField.setText("");
             passwordField.setText("");
         } else {
             throwLogInError();
@@ -66,7 +65,7 @@ public class Account {
                 JSONObject data = new JSONObject();
                 data.put("username", enterUsernameField.getText());
                 data.put("email", enterEmailField.getText());
-                data.put("password", enterPasswordField.getPassword());
+                data.put("password", Helper.charToString(enterPasswordField.getPassword()));
 
                 GameManager.socket.emit("accountRegister", data);
             }

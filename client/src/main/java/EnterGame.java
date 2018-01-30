@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class EnterGame {
 
+    String username;
+
     private JPanel panel;
     private JLabel title;
     private JLabel paddingLabel;
@@ -14,10 +16,11 @@ public class EnterGame {
     private JButton joinGameButton;
     private JLabel errorMessage;
 
-    public EnterGame() {
+    public EnterGame(String username) {
         GameManager.replaceContentPane(panel);
         setDefaults();
         addActionListeners();
+        this.username = username;
     }
     public void setDefaults() {
         title.setFont(Helper.getThemeFont(60));
@@ -64,6 +67,6 @@ public class EnterGame {
         panel.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         panel.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
 
-        panel.setBorder(BorderFactory.createTitledBorder("title"));
+        panel.setBorder(BorderFactory.createTitledBorder("Welcome, " + username));
     }
 }
