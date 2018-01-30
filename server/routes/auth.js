@@ -53,7 +53,10 @@ module.exports = function(socket) {
     player.currentGameToken = currentGameToken;
 
     await player.save();
-    socket.emit(socketMessages.PLAYER_REGISTER_SUCCESS, { token: currentGameToken });
+    socket.emit(socketMessages.PLAYER_REGISTER_SUCCESS, {
+      token: currentGameToken,
+      username: player.username,
+    });
 
   }
 
