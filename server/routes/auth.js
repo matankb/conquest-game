@@ -30,8 +30,8 @@ module.exports = function(socket) {
   async function playerRegister(playerData) {
 
     // check to see if email/username already exists
-    const playerEmailCheck = Player.findOne({ email: playerData.email });
-    const playerUsernameCheck = Player.findOne({ username: playerData.username });
+    const playerEmailCheck = await Player.findOne({ email: playerData.email });
+    const playerUsernameCheck = await Player.findOne({ username: playerData.username });
 
     if (playerEmailCheck) {
       return socket.emit(socketMessages.PLAYER_REGISTER_FAILURE, {
@@ -49,7 +49,7 @@ module.exports = function(socket) {
     player.email = playerData.email;
     player.password = await player.generateHash(playerData.password);
 
-    const currentGameToken = mongoose.Types.ObjectID();
+    const currentGameToken = mongoose.Types.ObjectId();
     player.currentGameToken = currentGameToken;
 
     await player.save();
