@@ -32,8 +32,15 @@ module.exports = function(socket) {
     // check to see if email/username already exists
     const playerEmailCheck = Player.findOne({ email: playerData.email });
     const playerUsernameCheck = Player.findOne({ username: playerData.username });
-    if (playerEmailCheck || playerUsernameCheck) {
-      return socket.emit(socketMessages.PLAYER_REGISTER_FAILURe);
+
+    if (playerEmailCheck) {
+      return socket.emit(socketMessages.PLAYER_REGISTER_FAILURE, {
+        message: 'That email is taken.',
+      });
+    } else if (playerUsernameCheck) {
+      return socket.emit(socketMessages.PLAYER_REGISTER_FAILURE, {
+        message: 'That username is taken. Please try another.',
+      });
     }
 
     const player = new Player();
