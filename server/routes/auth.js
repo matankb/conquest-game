@@ -49,8 +49,11 @@ module.exports = function(socket) {
     player.email = playerData.email;
     player.password = await player.generateHash(playerData.password);
 
+    const currentGameToken = mongoose.Types.ObjectID();
+    player.currentGameToken = currentGameToken;
+
     await player.save();
-    socket.emit(socketMessages.PLAYER_REGISTER_SUCCESS);
+    socket.emit(socketMessages.PLAYER_REGISTER_SUCCESS, { token: currentGameToken });
 
   }
 
