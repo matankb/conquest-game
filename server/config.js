@@ -13,7 +13,7 @@ const config = {
     PLAYER_REGISTER: 'accountRegister',
     PLAYER_REGISTER_SUCCESS: 'accountRegister',
     PLAYER_LOGIN: 'accountInfo',
-    PLAYER_LOGIN_SUCCESS: ' loginSuccess',
+    PLAYER_LOGIN_SUCCESS: 'loginSuccess',
     PLAYER_LOGIN_FAILURE: 'loginFailure',
     // pregame
     CREATE_PRIVATE_GAME: 'createPrivateGame',
