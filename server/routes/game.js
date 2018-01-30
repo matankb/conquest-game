@@ -2,7 +2,7 @@ const Game = require('../models/Game');
 const { socketMessages } = require('../config');
 
 
-export default function (socket, io) {
+module.exports = function (socket, io) {
 
   async function submitOrderForm(data) {
 
@@ -20,4 +20,4 @@ export default function (socket, io) {
 
   return { submitOrderForm };
 
-}
+};

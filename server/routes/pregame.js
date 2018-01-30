@@ -2,7 +2,7 @@ const Player = require('../models/Player');
 const Game = require('../models/Game');
 const { socketMessages } = require('../config');
 
-export default function(socket, io) {
+module.exports = function(socket, io) {
 
   async function joinPrivateGame(data) {
 
@@ -37,4 +37,4 @@ export default function(socket, io) {
     joinPrivateGame,
   };
 
-}
+};

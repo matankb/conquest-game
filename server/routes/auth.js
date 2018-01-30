@@ -3,7 +3,7 @@ const Player = require('../models/Player');
 
 const { socketMessages } = require('../config');
 
-export default function(socket) {
+module.exports = function(socket) {
 
   async function playerLogin(authData) {
 
@@ -45,4 +45,4 @@ export default function(socket) {
     playerRegister,
   };
 
-}
+};
