@@ -10,7 +10,7 @@ public class EnterGame {
     private JLabel paddingLabel;
     private JButton joinPrivateGame;
     private JButton joinPublicGame;
-    private JTextField privatGameIDField;
+    private JTextField privateGameIDField;
     private JButton joinGameButton;
     private JLabel errorMessage;
 
@@ -31,23 +31,23 @@ public class EnterGame {
         joinPrivateGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 joinGameButton.setVisible(true);
-                privatGameIDField.setVisible(true);
+                privateGameIDField.setVisible(true);
                 errorMessage.setVisible(false);
             }
         });
         joinPublicGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 joinGameButton.setVisible(false);
-                privatGameIDField.setVisible(false);
+                privateGameIDField.setVisible(false);
                 errorMessage.setVisible(false);
             }
         });
         joinGameButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!privatGameIDField.getText().equals("")) {
-                    GameManager.socket.emit("joinPrivateGame", privatGameIDField.getText());
-                    privatGameIDField.setText("");
-                    privatGameIDField.setVisible(false);
+                if (!privateGameIDField.getText().equals("")) {
+                    GameManager.socket.emit("joinPrivateGame", privateGameIDField.getText());
+                    privateGameIDField.setText("");
+                    privateGameIDField.setVisible(false);
                     joinGameButton.setVisible(false);
                     errorMessage.setVisible(false);
                 } else {
@@ -63,5 +63,7 @@ public class EnterGame {
         panel.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         panel.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         panel.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+
+        panel.setBorder(BorderFactory.createTitledBorder("title"));
     }
 }

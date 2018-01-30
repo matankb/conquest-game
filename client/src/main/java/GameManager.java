@@ -38,7 +38,7 @@ public class GameManager {
                     try {
                         sessionToken = (String) data.get("token");
                         EnterGame enterGame = new EnterGame();
-                        //creates page to enter a game from (i.e., private game or random public game
+                        //creates page to enter a game from (i.e., private game or random public game)
                     } catch (JSONException e) {
                         System.out.println(e.toString());
                     }
@@ -52,7 +52,7 @@ public class GameManager {
                     } catch (JSONException e) {
                         System.out.println(e.toString());
                     }
-                    account.throwError();
+                    account.throwLogInError();
                 }
             });
             socket.on("initialGameState", new Emitter.Listener() {
