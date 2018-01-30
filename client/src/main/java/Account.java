@@ -1,10 +1,11 @@
-import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class Account {
 
@@ -40,7 +41,7 @@ public class Account {
     }
     public void sendLogin() {
         if (accountField.getText().equals("") || passwordField.getPassword().equals("")) {
-            throwError();
+            throwLogInError();
             errorMessage.setText("Password or Email left blank.");
         } else if (accountField.getText().contains("@")){
             JSONObject data = new JSONObject();
@@ -52,19 +53,26 @@ public class Account {
             accountField.setText("");
             passwordField.setText("");
         } else {
-            throwError();
+            throwLogInError();
             errorMessage.setText("Invalid username/password");
         }
     }
     public void sendRegister() {
         if (enterUsernameField.getText().equals("") || enterEmailField.getText().equals("") || enterPasswordField.getPassword().equals("")) {
-            if (enterPasswordField.getPassword() == confirmPasswordField.getPassword()) {
+            registerErrorMessage.setText("One or more fields left blank");
+            throwRegisterError();
+        } else {
+            if (Helper.charToString(enterPasswordField.getPassword()).equals(Helper.charToString(confirmPasswordField.getPassword()))) {
                 JSONObject data = new JSONObject();
                 data.put("username", enterUsernameField.getText());
                 data.put("email", enterEmailField.getText());
                 data.put("password", enterPasswordField.getPassword());
 
-                GameManager.socket.emit("registerInfo", data);
+                GameManager.socket.emit("accountRegister", data);
+            }
+            else {
+                registerErrorMessage.setText("Passwords do not match");
+                throwRegisterError();
             }
         }
     }
@@ -81,6 +89,7 @@ public class Account {
         enterPassword.setFont(Helper.getThemeFont(20));
         enterUsername.setFont(Helper.getThemeFont(20));
         confirmPassword.setFont(Helper.getThemeFont(15));
+        registerErrorMessage.setFont(Helper.getThemeFont(14));
 
         errorMessage.setVisible(false);
         addActionListeners();
@@ -100,7 +109,7 @@ public class Account {
     public JPanel getPanel() {
         return panel;
     }
-    public void throwError() {
+    public void throwLogInError() {
         Thread thread = new Thread(new Runnable() {
             public void run() {
                 errorMessage.setVisible(true);
@@ -120,7 +129,26 @@ public class Account {
         });
         thread.start();
     }
-
+    public void throwRegisterError() {
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                registerErrorMessage.setVisible(true);
+                registerPanel.revalidate();
+                registerPanel.repaint();
+                try {
+                    synchronized (this) {
+                        wait(4000);
+                    }
+                } catch (InterruptedException e) {
+                    System.out.println(e.toString());
+                }
+                registerErrorMessage.setVisible(false);
+                registerPanel.revalidate();
+                registerPanel.repaint();
+            }
+        });
+        thread.start();
+    }
     private void createUIComponents() {
         // TODO: place custom component creation code here
         //NOT IN USE
