@@ -37,7 +37,7 @@ public class GameManager {
                     JSONObject data = (JSONObject) objects[0];
                     try {
                         sessionToken = (String) data.get("token");
-                        EnterGame enterGame = new EnterGame();
+                        EnterGame enterGame = new EnterGame((String) data.get("username"));
                         //creates page to enter a game from (i.e., private game or random public game)
                     } catch (JSONException e) {
                         System.out.println(e.toString());
@@ -53,6 +53,30 @@ public class GameManager {
                         System.out.println(e.toString());
                     }
                     account.throwLogInError();
+                }
+            });
+            socket.on("accountRegisterSuccess", new Emitter.Listener() {
+                public void call(Object... objects) {
+                    //this code will need to later on wait for player to confirm email before switching.
+                    JSONObject data = (JSONObject) objects[0];
+                    try {
+                        sessionToken = (String) data.get("token");
+                        EnterGame enterGame = new EnterGame((String) data.get("username"));
+                        //creates page to enter a game from (i.e., private game or random public game)
+                    } catch (JSONException e) {
+                        System.out.println(e.toString());
+                    }
+                }
+            });
+            socket.on("accountRegisterFailure", new Emitter.Listener() {
+                public void call(Object... objects) {
+                    JSONObject data = (JSONObject) objects[0];
+                    try {
+                        account.registerErrorMessage.setText((String) data.get("message"));
+                    } catch (JSONException e) {
+                        System.out.println(e.toString());
+                    }
+                    account.throwRegisterError();
                 }
             });
             socket.on("initialGameState", new Emitter.Listener() {
