@@ -21,8 +21,10 @@ const config = {
     JOIN_PUBLIC_GAME: 'joinPublicGame',
     JOIN_PRIVATE_GAME: 'joinPrivateGame',
     JOIN_RANDOM_GAME: 'joinRandomGame',
-    // game
     INITIAL_GAME_STATE: 'initialGameState',
+    ADD_PLAYER: 'addPlayer',
+    BEGIN_GAME: 'addPlayer',
+    // game
     SUBMIT_ORDER_FORM: 'submitOrderForm',
     NEW_GAME_STATE: 'newGameState',
   },

@@ -4,15 +4,13 @@ const { socketMessages } = require('../config');
 
 module.exports = function(socket, io) {
 
-  function generateInitialGameState(game) {
+  function generateInitialGameState() {
     return {
-      round: 0,
-      players: game.players.map(p => ({
-        id: p.id,
+      player: {
         money: 5000,
         regionsOwned: [],
         armies: [],
-      })),
+      },
       regions: [], // TODO: Import map data
     };
   }
@@ -48,6 +46,8 @@ module.exports = function(socket, io) {
     game.players.push(player);
     socket.join(game.id);
     await game.save();
+
+    socket.emit(socketMessages.INITIAL_GAME_STATE, generateInitialGameState());
 
   }
 
