@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class Game {
-    private JPanel panel1;
+    private JPanel panel;
     private TextManager textManager;
 
     /*
@@ -10,6 +10,10 @@ public class Game {
      */
 
     public Game() {
-
+        GameManager.replaceContentPane(panel);
+        System.out.println("ainfiuf");
+    }
+    public static void beginGame() {
+        //activates ActionListeners and removes text saying waiting for players
     }
 }
