@@ -22,6 +22,7 @@ module.exports = function(socket) {
     const currentGameToken = mongoose.Types.ObjectId();
     player.currentGameToken = currentGameToken;
     await player.save();
+    console.log(player.username)
 
     socket.emit(socketMessages.PLAYER_LOGIN_SUCCESS, {
       token: currentGameToken,
@@ -56,6 +57,7 @@ module.exports = function(socket) {
     player.currentGameToken = currentGameToken;
 
     await player.save();
+
     socket.emit(socketMessages.PLAYER_REGISTER_SUCCESS, {
       token: currentGameToken,
       username: player.username,

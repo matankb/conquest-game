@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,12 +17,14 @@ public class EnterGame {
     private JTextField privateGameIDField;
     private JButton joinGameButton;
     private JLabel errorMessage;
+    private JButton createPrivateGame;
 
     public EnterGame(String username) {
+        this.username = username;
         GameManager.replaceContentPane(panel);
         setDefaults();
         addActionListeners();
-        this.username = username;
+        System.out.println(username);
     }
     public void setDefaults() {
         title.setFont(Helper.getThemeFont(60));
@@ -28,6 +32,7 @@ public class EnterGame {
         joinPrivateGame.setFont(Helper.getThemeFont(20));
         joinPublicGame.setFont(Helper.getThemeFont(20));
         joinGameButton.setFont(Helper.getThemeFont(15));
+        createPrivateGame.setFont(Helper.getThemeFont(20));
         errorMessage.setFont(Helper.getThemeFont(10));
     }
     public void addActionListeners() {
@@ -43,6 +48,9 @@ public class EnterGame {
                 joinGameButton.setVisible(false);
                 privateGameIDField.setVisible(false);
                 errorMessage.setVisible(false);
+
+                SessionJSON data = new SessionJSON();
+                GameManager.socket.emit("joinPublicGame", data);
             }
         });
         joinGameButton.addActionListener(new ActionListener() {
