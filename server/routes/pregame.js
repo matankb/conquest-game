@@ -30,23 +30,21 @@ module.exports = function(socket, io) {
     if (game.players.length === 4) {
       // init game state
       game.data = generateInitialGameState(game);
-    };
-
-
-      io.in(game.id).emit(socketMessages.INITIAL_GAME_STATE, game.data);
     }
 
+    io.in(game.id).emit(socketMessages.INITIAL_GAME_STATE, game.data);
   }
+
 
   async function joinPublicGame(data) {
 
     let game = await Game.findOne({ inProgress: false });
-    const player = await Player.findOne({ currentGameToken: data.token })
+    const player = await Player.findOne({ currentGameToken: data.token });
 
     if (!game) {
       game = new Game(); // init new game if all are in progress
     }
-    
+
     game.players.push(player);
     socket.join(game.id);
     await game.save();
