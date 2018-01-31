@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const gameSchema = new mongoose.Schema({
   name: String,
   players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
+  inProgress: { type: Boolean, default: false },
   data: {
     round: Number,
     players: [{

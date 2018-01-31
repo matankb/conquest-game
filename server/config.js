@@ -18,6 +18,7 @@ const config = {
     PLAYER_LOGIN_FAILURE: 'loginFailure',
     // pregame
     CREATE_PRIVATE_GAME: 'createPrivateGame',
+    JOIN_PUBLIC_GAME: 'joinPublicGame',
     JOIN_PRIVATE_GAME: 'joinPrivateGame',
     JOIN_RANDOM_GAME: 'joinRandomGame',
     // game

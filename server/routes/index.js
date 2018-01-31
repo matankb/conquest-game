@@ -17,6 +17,7 @@ module.exports = function (app, io) {
     socket.on(socketMessages.PLAYER_REGISTER, authRoutes.playerRegister);
 
     // pregame
+    socket.on(socketMessages.JOIN_PUBLIC_GAME, pregameRoutes.joinPublicGame);
     socket.on(socketMessages.JOIN_PRIVATE_GAME, pregameRoutes.joinPrivateGame);
 
     // game
