@@ -82,6 +82,7 @@ public class GameManager {
             socket.on("initialGameState", new Emitter.Listener() {
                 public void call(Object... objects) {
                     //set up the beginning game state
+                    Game game = new Game();
                 }
             });
             socket.on("newGameState", new Emitter.Listener() {
