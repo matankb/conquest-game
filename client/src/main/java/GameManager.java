@@ -85,6 +85,12 @@ public class GameManager {
                     Game game = new Game();
                 }
             });
+            socket.on("beginGame", new Emitter.Listener() {
+                public void call(Object... objects) {
+                    //activate ActionListeners in Game to begin the game
+                    Game.beginGame();
+                }
+            });
             socket.on("newGameState", new Emitter.Listener() {
                 public void call(Object... objects) {
                     //something that updates the game map/state/whatever

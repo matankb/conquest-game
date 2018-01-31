@@ -24,7 +24,6 @@ public class EnterGame {
         GameManager.replaceContentPane(panel);
         setDefaults();
         addActionListeners();
-        System.out.println(username);
     }
     public void setDefaults() {
         title.setFont(Helper.getThemeFont(60));
