@@ -11,7 +11,6 @@ public class Game {
 
     public Game() {
         GameManager.replaceContentPane(panel);
-        System.out.println("ainfiuf");
     }
     public static void beginGame() {
         //activates ActionListeners and removes text saying waiting for players

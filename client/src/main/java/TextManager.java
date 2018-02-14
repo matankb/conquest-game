@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class TextManager extends JComponent{
@@ -21,6 +22,6 @@ public class TextManager extends JComponent{
         panel.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         panel.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         panel.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        panel.setBorder(BorderFactory.createTitledBorder("Chat Room"));
     }
-
 }
