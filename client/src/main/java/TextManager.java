@@ -4,13 +4,17 @@ import java.awt.*;
 public class TextManager extends JComponent{
     private JPanel panel;
     private JScrollPane scrollPane;
+    private JTextPane textPane;
+    private JTextField inputField;
 
     public TextManager() {
         setDefaults();
         add("garbo kid", "xX_69_69_69_69_Xx"); //test
     }
     public void add(String text, String username) {
-        scrollPane.add(new FontedLabel(username, text));
+        textPane.setText(textPane.getText() + username + ": " + text + "\n");
+        textPane.revalidate();
+        textPane.repaint();
     }
 
     private void setDefaults() {
@@ -19,7 +23,4 @@ public class TextManager extends JComponent{
         panel.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }

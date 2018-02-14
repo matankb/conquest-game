@@ -35,7 +35,6 @@ public class Account {
 
     public Account() {
 
-        panel.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
         setDefaults();
 
     }
