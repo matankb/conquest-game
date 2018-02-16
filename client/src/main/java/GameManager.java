@@ -5,6 +5,10 @@ import io.socket.emitter.Emitter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.net.URISyntaxException;
 
 public class GameManager {
@@ -113,6 +117,7 @@ public class GameManager {
         frame.setVisible(true);
         frame.validate();
         frame.repaint();
+        closeListener();
     }
     public static void initFrame() {
         frame = new JFrame("Provincial Takeover");
@@ -122,5 +127,14 @@ public class GameManager {
         frame.setLocationRelativeTo(null);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+    public static void closeListener() {
+        WindowListener exitListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                new ConfirmExit();
+            }
+        };
+        frame.addWindowListener(exitListener);
     }
 }
